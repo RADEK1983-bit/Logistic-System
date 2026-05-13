@@ -1,0 +1,88 @@
+﻿<Window x:Class="LogisticsSystem.UI.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="System Logistyczny - Inter Cars Integration" SizeToContent="Height" 
+        Width="500"
+        WindowStartupLocation="CenterScreen">
+
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0" Text="Karta Części Zamiennej" FontSize="20" FontWeight="Bold" Margin="0,0,0,15"/>
+
+        <StackPanel Grid.Row="1" Margin="0,5">
+            <TextBlock Text="INFORMACJE O CZĘŚCI" FontWeight="Bold" Foreground="Gray" Margin="0,0,0,10"/>
+
+            <UniformGrid Columns="2">
+                <TextBlock Text="Nazwa:"/>
+                <TextBlock Text="{Binding Name}" FontWeight="Medium"/>
+                <TextBlock Text="Kod Producenta:"/>
+                <TextBlock Text="{Binding ProducerCode}"/>
+                <TextBlock Text="Lokalizacja:" Margin="0,10,0,0"/>
+                <TextBlock Text="{Binding StorageLocation}" FontWeight="Bold" Foreground="DarkBlue" Margin="0,10,0,0"/>
+                
+                <TextBlock Text="Stan Magazynu:" Margin="0,10,0,10"/>
+                <TextBlock Text="{Binding StockQuantity}">
+                    <TextBlock.Style>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Foreground" Value="Black"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding StockQuantity}" Value="0">
+                                    <Setter Property="Foreground" Value="Red"/>
+                                    <Setter Property="FontWeight" Value="Bold"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+
+                <TextBlock Text="Ostatnia dostawa:"/>
+                <TextBlock Text="{Binding LastDeliveryDate, StringFormat='{}{0:dd.MM.yyyy HH:mm}'}" Foreground="DarkGreen"/>
+            </UniformGrid>
+
+            <StackPanel Orientation="Horizontal" Margin="0,20,0,0">
+                <TextBlock Text="Ilość z dostawy:" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                <TextBox x:Name="DeliveryAmountInput" Width="50" Margin="0,0,10,0" Text="0" FontStyle="Normal" TextAlignment="Center" VerticalContentAlignment="Center" FontSize="18"/>
+
+                <Button Content="Przyjmij dostawę" Padding="10,5" Click="ReceiveDelivery_Click"/>
+                <Button Content="Wydaj" Padding="10,5" Click="IssueFromStock_Click" Background="GhostWhite" Margin="10,0,0,0" />
+            </StackPanel>
+            <!-- PANEL ZARZĄDZANIA LOKALIZACJĄ -->
+            <StackPanel Margin="0,20,0,0">
+                <TextBlock Text="ZMIANA LOKALIZACJI" FontWeight="Bold" Foreground="Gray" Margin="0,0,0,10"/>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Alejka:" VerticalAlignment="Center" Margin="0,0,5,0"/>
+                    <!-- Ograniczamy szerokość, bo to będą krótkie znaki np. 'A' albo '12' -->
+                    <TextBox x:Name="AisleInput" Width="40" Margin="0,0,10,0" TextAlignment="Center"/>
+
+                    <TextBlock Text="Regał:" VerticalAlignment="Center" Margin="0,0,5,0"/>
+                    <TextBox x:Name="RackInput" Width="40" Margin="0,0,10,0" TextAlignment="Center"/>
+
+                    <TextBlock Text="Półka:" VerticalAlignment="Center" Margin="0,0,5,0"/>
+                    <TextBox x:Name="ShelfInput" Width="40" Margin="0,0,15,0" TextAlignment="Center"/>
+
+                    <!-- Podpinamy nowe zdarzenie Click -->
+                    <Button Content="Zmień lokalizację" Padding="10,5" Click="ChangeLocation_Click"/>
+                    
+                </StackPanel>
+                <!-- PANEL HISTORII OPERACJI (AUDYT) -->
+                <StackPanel Margin="0,20,0,0">
+                    <TextBlock Text="HISTORIA OPERACJI" FontWeight="Bold" Foreground="Gray" Margin="0,0,0,5"/>
+
+                    <!-- ListBox automatycznie odświeży się dzięki ObservableCollection -->
+                    <ListBox ItemsSource="{Binding OperationHistory}" 
+                 Height="100" 
+                 Background="#FAFAFA" 
+                 BorderBrush="#E0E0E0" 
+                 Padding="5"/>
+                </StackPanel>
+            </StackPanel>
+        </StackPanel>
+
+    </Grid>
+</Window>

@@ -1,0 +1,7 @@
+<Solution>
+  <Folder Name="/LogisticsSystem/">
+    <Project Path="../LogisticsSystem.Core.Tests/LogisticsSystem.Core.Tests.csproj" />
+    <Project Path="../LogisticsSystem.UI/LogisticsSystem.UI.csproj" Id="bf2173e2-60b5-411e-9eb2-adefdeedb759" />
+    <Project Path="LogisticsSystem.Core.csproj" />
+  </Folder>
+</Solution>
